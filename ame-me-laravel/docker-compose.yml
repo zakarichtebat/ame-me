@@ -1,0 +1,75 @@
+version: '3'
+services:
+  app:
+    build:
+      args:
+        user: laravel
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: ame-me/laravel
+    container_name: ame-me-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - ame-me-network
+
+  db:
+    image: mysql:8.0
+    container_name: ame-me-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-ame_me_db}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-ame_me_password}
+      MYSQL_USER: ${DB_USERNAME:-ame_me_user}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    ports:
+      - 3307:3306
+    networks:
+      - ame-me-network
+
+  nginx:
+    image: nginx:1.21-alpine
+    container_name: ame-me-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - ame-me-network
+
+  npm:
+    image: node:16-alpine
+    container_name: ame-me-npm
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    entrypoint: ['npm']
+    networks:
+      - ame-me-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ame-me-phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+    networks:
+      - ame-me-network
+
+networks:
+  ame-me-network:
+    driver: bridge 

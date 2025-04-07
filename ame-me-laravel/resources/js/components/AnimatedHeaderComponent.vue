@@ -61,10 +61,8 @@ export default {
       navItems: [
         { text: 'Home', url: '/', active: window.location.pathname === '/' },
         { text: 'About', url: '/about', active: window.location.pathname === '/about' },
-       
-    
+        { text: 'Blog', url: '/blog', active: window.location.pathname.startsWith('/blog') },
         { text: 'Contact', url: '/contact', active: window.location.pathname === '/contact' },
-
       ]
     }
   },

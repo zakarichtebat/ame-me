@@ -17,6 +17,8 @@ import AnimatedMaintenanceComponent from './components/AnimatedMaintenanceCompon
 import AnimatedFooterComponent from './components/AnimatedFooterComponent.vue';
 import AnimatedAboutComponent from './components/AnimatedAboutComponent.vue';
 import AnimatedCGVSComponent from './components/AnimatedCGVSComponent.vue';
+import AnimatedBlogComponent from './components/AnimatedBlogComponent.vue';
+import AnimatedBlogPostCard from './components/AnimatedBlogPostCard.vue';
 
 // Initialize Vue app
 const app = createApp({});
@@ -37,6 +39,8 @@ app.component('animated-maintenance-info', AnimatedMaintenanceComponent);
 app.component('animated-footer', AnimatedFooterComponent);
 app.component('animated-about', AnimatedAboutComponent);
 app.component('animated-cgvs', AnimatedCGVSComponent);
+app.component('animated-blog', AnimatedBlogComponent);
+app.component('animated-blog-post-card', AnimatedBlogPostCard);
 
 // Mount the app
 app.mount('#app');
